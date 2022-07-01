@@ -1,4 +1,4 @@
-#Azure DevOps Test Connector
+Azure DevOps Test Connector
 
 Allows you to seamlessly synchronise Test Cases and SpecFlow Feature Files in Visual Studio, with Test Plans/Suites & Cases in Azure DevOps.
 Also automatically adds the association between ADO and Visual Studio, massively speeding up the existing process in Visual Studio. Now with support for creating multiple test cases from Specflow Scenario Outlines.
