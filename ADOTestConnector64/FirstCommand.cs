@@ -788,7 +788,7 @@ namespace ADOTestConnector64
                     {
                         var testCaseIds = splitTestCaseReferenceIds.Length >= h + 1 ? splitTestCaseReferenceIds[h].Trim() : "";
                         var paramString = HeaderValuePairToString(headerValuePairs, h);
-                        var enhancedMethodName = Regex.Replace(methodName, "[^a-zA-Z0-9_.]+", string.Empty, RegexOptions.Compiled) + $"({paramString})";
+                        var enhancedMethodName = Regex.Replace(CultureInfo.InvariantCulture.TextInfo.ToTitleCase(methodName), "[^a-zA-Z0-9_.]+", string.Empty, RegexOptions.Compiled) + $"({paramString})";
                         var enhancedSteps = new List<string>();
                         foreach (var step in specflowSteps)
                         {
