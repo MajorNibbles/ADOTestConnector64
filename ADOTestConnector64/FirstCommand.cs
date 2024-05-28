@@ -514,7 +514,14 @@ namespace ADOTestConnector64
         {
             fullLine = fullLine.Replace("Scenario:", "");
             fullLine = fullLine.Replace("Scenario Outline:", "");
-            return fullLine.Trim();
+            fullLine = fullLine.Trim();
+
+            // The following 2 lines are to match SpecFlows handling of methods that start with a digit.
+            // If a Scenario starts with a number, SpecFlow automatically adds an underscore otherwise the method will not compile.
+            char firstCharacter = fullLine.ToCharArray()[0];
+            if (Char.IsDigit(firstCharacter)) fullLine = $"_{fullLine}";
+
+            return fullLine;
         }
 
         private string UpdateTestReference(string fullLine, TagPattern tagPattern, int testReferenceId)
