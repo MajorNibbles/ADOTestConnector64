@@ -725,12 +725,22 @@ namespace ADOTestConnector64
                 //find specflow example tests if enabled
                 if (_configData.SeparateSpecFlowExamples && scenarioOutline)
                 {
-                    //find examples table header:
+                    //find example tags (if any) and then table header:
                     var currentLineIndex = currentLineInFile;
                     var examplesLine = -1;
+                    List<string> exampleTagLines = new List<string>();
                     do
                     {
                         currentLineIndex++;
+                        if (_testFileLines.ElementAt(currentLineIndex).ToLower().Count(c => c == '@') > 1) // more than one tag on a single line
+                        {
+                            var tags = _testFileLines.ElementAt(currentLineIndex).Replace("@", "").Split(' ');
+                            exampleTagLines.AddRange(tags);
+                        } else if(_testFileLines.ElementAt(currentLineIndex).ToLower().Count(c => c == '@') > 0) // single tag on a line
+                        {
+                            exampleTagLines.Add(_testFileLines.ElementAt(currentLineIndex).Replace("@", ""));
+                        }
+
                         if (_testFileLines.ElementAt(currentLineIndex).ToLower().Contains("examples:"))
                         {
                             for (int h = 1; h < 5; h++)
@@ -795,7 +805,8 @@ namespace ADOTestConnector64
                     {
                         var testCaseIds = splitTestCaseReferenceIds.Length >= h + 1 ? splitTestCaseReferenceIds[h].Trim() : "";
                         var paramString = HeaderValuePairToString(headerValuePairs, h);
-                        var enhancedMethodName = methodName + $"({paramString})";
+                        var tagString = exampleTagLines.Count == 0 ? "null" : $"[\"{String.Join("\",\"", exampleTagLines)}\"]";
+                        var enhancedMethodName = methodName + $"({paramString},{tagString})";
                         var enhancedSteps = new List<string>();
                         foreach (var step in specflowSteps)
                         {
