@@ -190,7 +190,8 @@ namespace ADOTestConnector64
                     testPlanId = _adoData.TestPlanId,
                     TestSteps = testCaseData.TestSteps,
                     testSuiteId = _adoData.TestSuiteId,
-                    UpdateTestCaseAssociation = _configData.UpdateTestCaseAssociation
+                    UpdateTestCaseAssociation = _configData.UpdateTestCaseAssociation,
+                    SpecflowParams = testCaseData.SpecflowParams
                 };
 
                 testCaseData.TestCaseId = _workItemCreator.CreateOrUpdateTestCase(wIcTestData);
@@ -735,10 +736,14 @@ namespace ADOTestConnector64
                         if (_testFileLines.ElementAt(currentLineIndex).ToLower().Count(c => c == '@') > 1) // more than one tag on a single line
                         {
                             var tags = _testFileLines.ElementAt(currentLineIndex).Replace("@", "").Split(' ');
+                            foreach (var tag in tags)
+                            {
+                                tag.Trim();
+                            }
                             exampleTagLines.AddRange(tags);
                         } else if(_testFileLines.ElementAt(currentLineIndex).ToLower().Count(c => c == '@') > 0) // single tag on a line
                         {
-                            exampleTagLines.Add(_testFileLines.ElementAt(currentLineIndex).Replace("@", ""));
+                            exampleTagLines.Add(_testFileLines.ElementAt(currentLineIndex).Replace("@", "").Trim());
                         }
 
                         if (_testFileLines.ElementAt(currentLineIndex).ToLower().Contains("examples:"))
@@ -806,7 +811,8 @@ namespace ADOTestConnector64
                         var testCaseIds = splitTestCaseReferenceIds.Length >= h + 1 ? splitTestCaseReferenceIds[h].Trim() : "";
                         var paramString = HeaderValuePairToString(headerValuePairs, h);
                         var tagString = exampleTagLines.Count == 0 ? "null" : $"[\"{String.Join("\",\"", exampleTagLines)}\"]";
-                        var enhancedMethodName = methodName + $"({paramString},{tagString})";
+                        var specflowParams = $"({paramString},{tagString})";
+                        var enhancedMethodName = methodName;
                         var enhancedSteps = new List<string>();
                         foreach (var step in specflowSteps)
                         {
@@ -823,7 +829,8 @@ namespace ADOTestConnector64
                             TestCaseSignatureIndex = testCaseSignatureIndex,
                             ExistingTestCaseReferenceIndex = testReferenceIndex,
                             WhiteSpace = whiteSpace,
-                            TestSteps = enhancedSteps
+                            TestSteps = enhancedSteps,
+                            SpecflowParams = specflowParams
                         });
                     }
                 }
