@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="ADOTestConnector64.83e890f7-8c2e-413a-8483-92144c3c2423" Version="1.2" Language="en-US" Publisher="MadeUpExtensions" />
+        <Identity Id="ADOTestConnector64.83e890f7-8c2e-413a-8483-92144c3c2423" Version="1.3" Language="en-US" Publisher="MadeUpExtensions" />
         <DisplayName>ADOTestConnector64</DisplayName>
         <Description xml:space="preserve">Sync Visual Studio Test Cases with ADO</Description>
     </Metadata>
