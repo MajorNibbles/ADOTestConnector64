@@ -43,7 +43,7 @@ namespace ADOTestConnector64
         private List<string> _testFileLines;
         private List<TestCaseData> _tests;
 
-        private static IAzureWorkItemCreator _workItemCreator => (IAzureWorkItemCreator) DependencyContainer.ServiceProvider.GetService(typeof(IAzureWorkItemCreator));
+        private static IAzureWorkItemCreator _workItemCreator => (IAzureWorkItemCreator)DependencyContainer.ServiceProvider.GetService(typeof(IAzureWorkItemCreator));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FirstCommand"/> class.
@@ -161,7 +161,7 @@ namespace ADOTestConnector64
                 }
                 else
                 {
-                    var testCase = ScanForMsTestAndNunitTests(currentLine, i);
+                    var testCase = ScanForMsTestAndNunitAndXunitTests(currentLine, i);
                     if (testCase != null)
                         _tests.Add(testCase);
                 }
@@ -179,13 +179,14 @@ namespace ADOTestConnector64
                     CurrentSolutionDllName = _adoData.CurrentSolutionDllName,
                     PatCode = _options.PatCode,
                     ProjectName = _options.ProjectName,
+                    TestPlanId = _options.TestPlanId,
                     ReadableTestCaseName = testCaseData.ReadableTestCaseName,
                     TestCaseMethodName = testCaseData.TestCaseName,
                     TestCaseReference = testCaseData.TestCaseId,
-                    TestPlanId = _adoData.TestPlanId,
                     TestSteps = testCaseData.TestSteps,
                     TestSuiteId = _adoData.TestSuiteId,
-                    UpdateTestCaseAssociation = _configData.UpdateTestCaseAssociation
+                    UpdateTestCaseAssociation = _configData.UpdateTestCaseAssociation,
+                    ParentUserStoryId = _adoData.ParentUserStoryId
                 };
 
                 testCaseData.TestCaseId = _workItemCreator.CreateOrUpdateTestCase(wIcTestData);
@@ -292,7 +293,7 @@ namespace ADOTestConnector64
             {
                 var testPlanInput = Interaction.InputBox(
                     "We need a Test Plan to link the Test Cases to, either provide an ID of an existing Test Plan, or a name of a new one",
-                    "Test Plan Id or Name", "", -1, -1);
+                    "Test Plan Id or Name", _options.TestPlanId.ToString(), -1, -1);
                 if (testPlanInput == "")
                 {
                     Interaction.MsgBox("No Test Plan input detected, no changes have been made");
@@ -380,7 +381,7 @@ namespace ADOTestConnector64
 
 
                     var lineWithNameSpace = testFileLines.Where(l => l.Contains("namespace ")).FirstOrDefault();
-                    _adoData.CurrentNameSpace = lineWithNameSpace.Replace("namespace ", "").Trim() + "." + classname;
+                    _adoData.CurrentNameSpace = lineWithNameSpace.Replace("namespace ", "").Replace(";", "").Trim() + "." + classname;
 
                     break;
                 }
@@ -428,12 +429,21 @@ namespace ADOTestConnector64
                     "Association Dll Name", solutionProjectName, -1, -1);
             _options.AssociationDllName = _adoData.CurrentSolutionDllName;
 
-            //Double check automation namespace
-            if (_configData.UpdateTestCaseAssociation)
-                _adoData.CurrentNameSpace = Interaction.InputBox("Please validate the Automated Test Name association namespace you want to associate the tests with in ADO, please leave blank if you wish no association to be made",
-                    "Association Name Space, NOTE: If using specflow the format of this must be: NameSpace+FeatureName+'Feature'", _adoData.CurrentNameSpace, -1, -1);
+            //Double check TestPlanId
+            _adoData.TestPlanId = int.Parse(Interaction.InputBox("Please enter the Azure Devops Test Plan ID you want the Test Case created in",
+                "Test Plan Id", _adoData.TestPlanId.ToString(), -1, -1));
+            _options.TestPlanId = _adoData.TestPlanId;
 
-            _options.CurrentNameSpace = _adoData.CurrentNameSpace;
+            //Double check Parent User Story
+            _adoData.ParentUserStoryId = int.Parse(Interaction.InputBox("Please enter the ID of the Userstory this Test Case should be linked to",
+                "Parent User Story ID", _adoData.ParentUserStoryId.ToString(), -1, -1));
+
+            ////Double check automation namespace
+            //if (_configData.UpdateTestCaseAssociation)
+            //    _adoData.CurrentNameSpace = Interaction.InputBox("Please validate the Automated Test Name association namespace you want to associate the tests with in ADO, please leave blank if you wish no association to be made",
+            //        "Association Name Space, NOTE: If using specflow the format of this must be: NameSpace+FeatureName+'Feature'", _adoData.CurrentNameSpace, -1, -1);
+
+            //_options.CurrentNameSpace = _adoData.CurrentNameSpace;
         }
 
         private string HeaderValuePairToString(Dictionary<string, List<string>> headerValuePairs, int index)
@@ -579,6 +589,7 @@ namespace ADOTestConnector64
         {
             List<string> knownTestTags = new List<string>
             {
+                "Fact",
                 "Test",
                 "TestMethod",
                 "DataTestMethod"
@@ -609,7 +620,7 @@ namespace ADOTestConnector64
             return methodName;
         }
 
-        private TestCaseData ScanForMsTestAndNunitTests(string currentLine, int currentLineInFile)
+        private TestCaseData ScanForMsTestAndNunitAndXunitTests(string currentLine, int currentLineInFile)
         {
             if (DoesLineHaveKnownTestTag(currentLine))
             {
@@ -628,7 +639,7 @@ namespace ADOTestConnector64
                     {
                         //Find Method Name and any existing methodTestCaseIds
                         var methodName = ExtractMethodName(currentLine);
-                        var readableMethodName = TitleCaseToHuman(methodName);
+                        var readableMethodName = methodName; // TitleCaseToHuman(methodName);
                         var methodTestCaseId = "";
                         var testCaseSignatureIndex = j;
                         var testReferenceIndex = 0;

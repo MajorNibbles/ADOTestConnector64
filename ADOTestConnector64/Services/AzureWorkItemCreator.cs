@@ -167,8 +167,6 @@ namespace AzureDevOpsTestConnector.Services
             return wICTestData.TestCaseReference;
         }
 
-
-
         private string UpdateTestCase(WorkItemCreatorTestCaseData wICTestData)
         {
             var hashedToken = _encoder.EncodeString($"{wICTestData.PatCode}");
@@ -184,9 +182,7 @@ namespace AzureDevOpsTestConnector.Services
 
             var methodName = Regex.Replace(wICTestData.TestCaseMethodName, @"(^\w)|(\s\w)", m => m.Value.ToUpper()); //replace first letters with capitals
 
-
             List<string> updateOperations = new List<string>();
-
 
             string testCaseTitleUpdate = "";
             if (wICTestData.UpdateTestCaseName)
@@ -203,9 +199,6 @@ namespace AzureDevOpsTestConnector.Services
                     $"{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestName\",\"value\": \"{EscapeJsonCharacters(wICTestData.CurrentNameSpace)}.{EscapeJsonCharacters(methodName.Replace(" ", ""))}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestStorage\",\"value\": \"{EscapeJsonCharacters(wICTestData.CurrentSolutionDllName)}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestId\",\"value\": \"{Guid.NewGuid()}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestType\",\"value\": \"Unit Test\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomationStatus\",\"value\": \"Automated\"}}";
                 updateOperations.Add(associationBodyText);
             }
-
-
-
 
             _apiCaller.AddRequestBodyText($"[{string.Join(",", updateOperations)}]");
 
@@ -316,8 +309,6 @@ namespace AzureDevOpsTestConnector.Services
                 throw new Exception($"Unable to update Test Case state, please check your settings{Environment.NewLine}Status Code:{result.StatusCode}(Hint: if 203 check your PAT settings!){Environment.NewLine}Content Message:{result.Content}");
             }
         }
-
-
 
         private string ExtractIdFromJsonResponse(string input)
         {
