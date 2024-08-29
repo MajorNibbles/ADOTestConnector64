@@ -127,6 +127,24 @@ namespace ADOTestConnector64
             }
         }
 
+        public string FeatureParentUserStoryAttributePattern
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.FeatureParentUserStoryAttributePattern;
+            }
+        }
+
+        public string ClassParentUserStoryAttributePattern
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.ClassParentUserStoryAttributePattern;
+            }
+        }
+
         public bool UpdateSpecFlowSteps
         {
             get
@@ -280,6 +298,16 @@ namespace ADOTestConnector64
         [DisplayName("Feature Test Case Attribute Pattern")]
         [Description("(Specflow) A Method level attribute to define an Azure Devops Test Case Id to link the tests to. The Ado ID will replace the '~' character e.g. #TestCaseId(~)")]
         public string FeatureTestCaseAttributePattern { get; set; } = "#TestCaseReference(~)";
+
+        [Category("Labelling Settings")]
+        [DisplayName("Class Parent User Story Attribute Pattern")]
+        [Description("A Method level attribute to define an Azure Devops Test Case Id to link the tests to. The Ado ID will replace the '~' character e.g. //UserStoryId(~)")]
+        public string ClassParentUserStoryAttributePattern { get; set; } = "//ParentUserStoryReference(~)";
+
+        [Category("Labelling Settings")]
+        [DisplayName("Feature Parent User Story Attribute Pattern")]
+        [Description("(Specflow) A Method level attribute to define an Azure Devops Test Case Id to link the tests to. The Ado ID will replace the '~' character e.g. #UserStoryId(~)")]
+        public string FeatureParentUserStoryAttributePattern { get; set; } = "#ParentUserStoryReference(~)";
 
         [Category("Labelling Settings")]
         [DisplayName("Update Specflow steps in Test Cases?")]

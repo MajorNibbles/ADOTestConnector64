@@ -13,5 +13,6 @@ namespace AzureDevOpsTestConnector.Models.DataModels
         public int TestSuiteAttributeLine { get; internal set; }
         public bool TestPlanAttributeFound { get; internal set; }
         public bool SpecflowFeatureFile { get; internal set; }
+        public int ParentUserStoryAttributeLine { get; set; }
     }
 }

@@ -18,6 +18,8 @@ namespace AzureDevOpsTestConnector.Models
             FeatureTestSuiteAttributePattern = options.FeatureTestSuiteAttributePattern;
             ClassTestCaseAttributePattern = options.ClassTestCaseAttributePattern;
             FeatureTestCaseAttributePattern = options.FeatureTestCaseAttributePattern;
+            ClassParentUserStoryAttributePattern = options.ClassParentUserStoryAttributePattern;
+            FeatureParentUserStoryAttributePattern = options.FeatureParentUserStoryAttributePattern;
 
             UpdateSpecFlowSteps = options.UpdateSpecFlowSteps;
             SeparateSpecFlowExamples = options.SeperateSpecFlowExamples;
@@ -35,6 +37,10 @@ namespace AzureDevOpsTestConnector.Models
         public string FeatureTestCaseAttributePattern { get; }
         public string ClassTestCaseAttributePattern { get; set; }
         public TagPattern TestCasePattern { get; set; }
+
+        public string FeatureParentUserStoryAttributePattern { get; }
+        public string ClassParentUserStoryAttributePattern { get; set; }
+        public TagPattern ParentUserStoryPattern { get; set; }
 
         public bool UpdateSpecFlowSteps { get; set; }
         public bool SeparateSpecFlowExamples { get; set; }

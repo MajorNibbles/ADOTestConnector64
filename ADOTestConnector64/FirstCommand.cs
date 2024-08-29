@@ -126,6 +126,7 @@ namespace ADOTestConnector64
                 _configData.TestPlanPattern = new TagPattern(_configData.ClassTestPlanAttributePattern);
                 _configData.TestSuitePattern = new TagPattern(_configData.ClassTestSuiteAttributePattern);
                 _configData.TestCasePattern = new TagPattern(_configData.ClassTestCaseAttributePattern);
+                _configData.ParentUserStoryPattern = new TagPattern(_configData.ClassParentUserStoryAttributePattern);
             }
 
 
@@ -248,6 +249,21 @@ namespace ADOTestConnector64
                 _testFileLines.Insert(_runData.TestPlanAttributeLine, replacementLine);
             }
 
+            //Update Parent UserStory Reference
+            if (_runData.ParentUserStoryAttributeLine == 0)
+            {
+                //No existing Parent UserStory attribute
+                _testFileLines.Insert(_runData.ClassNameLine, $"{_configData.ParentUserStoryPattern.Prefix}{_adoData.ParentUserStoryId}{_configData.ParentUserStoryPattern.Suffix}");
+            }
+            else
+            {
+                //Update into existing Test Plan reference
+                var replacementLine = UpdateTestReference(_testFileLines.ElementAt(_runData.ParentUserStoryAttributeLine),
+                    _configData.ParentUserStoryPattern, _adoData.ParentUserStoryId);
+                _testFileLines.RemoveAt(_runData.ParentUserStoryAttributeLine);
+                _testFileLines.Insert(_runData.ParentUserStoryAttributeLine, replacementLine);
+            }
+
             //Now update original file:
             File.WriteAllLines(currentFilePath, _testFileLines);
 
@@ -344,7 +360,7 @@ namespace ADOTestConnector64
                 if (testFileLines[i].Contains(" class "))
                 {
                     _runData.ClassNameLine = i;
-                    // class found, look above for TestSuiteReference and TestPlanReference
+                    // class found, look above for TestSuiteReference and TestPlanReference and ParentUserStoryReference
                     for (int j = 1; j <= 10; j++)
                     {
                         if (i - j <= 1)
@@ -363,6 +379,12 @@ namespace ADOTestConnector64
                         {
                             _adoData.TestSuiteId = ExtractReferenceId(testFileLines[i - j], _configData.TestSuitePattern);
                             _runData.TestSuiteAttributeLine = i - j;
+                        }
+
+                        if (testFileLines[i - j].Contains(_configData.ParentUserStoryPattern.Prefix) && testFileLines[i - j].Contains(_configData.ParentUserStoryPattern.Suffix))
+                        {
+                            _adoData.ParentUserStoryId = ExtractReferenceId(testFileLines[i - j], _configData.TestPlanPattern);
+                            _runData.ParentUserStoryAttributeLine = i - j;
                         }
                     }
 
