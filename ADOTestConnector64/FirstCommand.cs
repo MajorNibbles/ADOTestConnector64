@@ -266,9 +266,10 @@ namespace ADOTestConnector64
                     return true;
                 }
 
-                var testSuiteReqLinkIds = Interaction.InputBox(
-                    $"Would you like to link the new Test Suite to Requirements? If so enter the requirement ID.{Environment.NewLine}If not leave blank. e.g. 123456",
-                    "Test Suite Requirement Id", "", -1, -1);
+                var testSuiteReqLinkIds = ""; // set default ReqLinkId to "" to always use static Suites
+                    //Interaction.InputBox(
+                    //$"Would you like to link the new Test Suite to Requirements? If so enter the requirement ID.{Environment.NewLine}If not leave blank. e.g. 123456",
+                    //"Test Suite Requirement Id", "", -1, -1);
 
                 int.TryParse(testSuiteInput, out var testSuiteIdParse);
                 _adoData.TestSuiteId = testSuiteIdParse;
