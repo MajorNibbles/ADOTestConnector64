@@ -178,6 +178,21 @@ namespace ADOTestConnector64
             }
         }
 
+        public int TestPlanId
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.TestPlanId;
+            }
+            set
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                page.TestPlanId = value;
+                page.SaveSettingsToStorage();
+            }
+        }
+
         public string AssociationDllName
         {
             get
@@ -224,6 +239,12 @@ namespace ADOTestConnector64
         [Description(
             "The name of the project you want to add tests to, can be changed on the fly during Test Case creation")]
         public string ProjectName { get; set; } = "ProjectFoo";
+
+        [Category("Integration Settings")]
+        [DisplayName("Test Plan ID")]
+        [Description(
+            "The ID of the Test Plan you are using")]
+        public int TestPlanId { get; set; } = -1;
 
         [Category("Integration Settings")]
         [DisplayName("PAT Code")]

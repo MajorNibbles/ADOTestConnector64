@@ -175,16 +175,16 @@ namespace ADOTestConnector64
                 {
                     UpdateTestCaseName = _options.UpdateTestCaseTitle,
                     AzureDevopsBaseUrl = _options.AzureDevopsBaseUrl,
-                    currentNameSpace = _adoData.CurrentNameSpace,
-                    currentSolutionDllName = _adoData.CurrentSolutionDllName,
+                    CurrentNameSpace = _adoData.CurrentNameSpace,
+                    CurrentSolutionDllName = _adoData.CurrentSolutionDllName,
                     PatCode = _options.PatCode,
                     ProjectName = _options.ProjectName,
                     ReadableTestCaseName = testCaseData.ReadableTestCaseName,
                     TestCaseMethodName = testCaseData.TestCaseName,
                     TestCaseReference = testCaseData.TestCaseId,
-                    testPlanId = _adoData.TestPlanId,
+                    TestPlanId = _adoData.TestPlanId,
                     TestSteps = testCaseData.TestSteps,
-                    testSuiteId = _adoData.TestSuiteId,
+                    TestSuiteId = _adoData.TestSuiteId,
                     UpdateTestCaseAssociation = _configData.UpdateTestCaseAssociation
                 };
 

@@ -113,8 +113,8 @@ namespace AzureDevOpsTestConnector.Services
 
             string associationBodyText = "";
             if (wICTestData.UpdateTestCaseAssociation)
-                associationBodyText = string.IsNullOrEmpty(wICTestData.currentSolutionDllName) ? "" :
-                $"{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestName\",\"value\": \"{EscapeJsonCharacters(wICTestData.currentNameSpace)}.{EscapeJsonCharacters(methodName.Replace(" ", ""))}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestStorage\",\"value\": \"{EscapeJsonCharacters(wICTestData.currentSolutionDllName)}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestId\",\"value\": \"{Guid.NewGuid()}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestType\",\"value\": \"Unit Test\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomationStatus\",\"value\": \"Automated\"}},";
+                associationBodyText = string.IsNullOrEmpty(wICTestData.CurrentSolutionDllName) ? "" :
+                $"{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestName\",\"value\": \"{EscapeJsonCharacters(wICTestData.CurrentNameSpace)}.{EscapeJsonCharacters(methodName.Replace(" ", ""))}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestStorage\",\"value\": \"{EscapeJsonCharacters(wICTestData.CurrentSolutionDllName)}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestId\",\"value\": \"{Guid.NewGuid()}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestType\",\"value\": \"Unit Test\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomationStatus\",\"value\": \"Automated\"}},";
 
             var testCaseTitleCorrectLength = wICTestData.ReadableTestCaseName.Length > 128 ? EscapeJsonCharacters(wICTestData.ReadableTestCaseName).Substring(0, 128) : EscapeJsonCharacters(wICTestData.ReadableTestCaseName);
             _apiCaller.AddRequestBodyText($"[{associationBodyText}{{\"op\": \"add\",\"path\": \"/fields/System.Title\",\"from\": null,\"value\": \"{testCaseTitleCorrectLength}\"}}]");
@@ -194,8 +194,8 @@ namespace AzureDevOpsTestConnector.Services
             string associationBodyText = "";
             if (wICTestData.UpdateTestCaseAssociation)
             {
-                associationBodyText = string.IsNullOrEmpty(wICTestData.currentSolutionDllName) ? "" :
-                    $"{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestName\",\"value\": \"{EscapeJsonCharacters(wICTestData.currentNameSpace)}.{EscapeJsonCharacters(methodName.Replace(" ", ""))}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestStorage\",\"value\": \"{EscapeJsonCharacters(wICTestData.currentSolutionDllName)}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestId\",\"value\": \"{Guid.NewGuid()}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestType\",\"value\": \"Unit Test\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomationStatus\",\"value\": \"Automated\"}}";
+                associationBodyText = string.IsNullOrEmpty(wICTestData.CurrentSolutionDllName) ? "" :
+                    $"{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestName\",\"value\": \"{EscapeJsonCharacters(wICTestData.CurrentNameSpace)}.{EscapeJsonCharacters(methodName.Replace(" ", ""))}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestStorage\",\"value\": \"{EscapeJsonCharacters(wICTestData.CurrentSolutionDllName)}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestId\",\"value\": \"{Guid.NewGuid()}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestType\",\"value\": \"Unit Test\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomationStatus\",\"value\": \"Automated\"}}";
                 updateOperations.Add(associationBodyText);
             }
             
@@ -251,7 +251,7 @@ namespace AzureDevOpsTestConnector.Services
         {
             var hashedToken = _encoder.EncodeString($"{wICTestData.PatCode}");
 
-            _apiCaller.SetUpClient($"{wICTestData.AzureDevopsBaseUrl}/{wICTestData.ProjectName}/_apis/test/Plans/{wICTestData.testPlanId}/suites/{wICTestData.testSuiteId}/testcases/{wICTestData.TestCaseReference}?api-version=5.1");
+            _apiCaller.SetUpClient($"{wICTestData.AzureDevopsBaseUrl}/{wICTestData.ProjectName}/_apis/test/Plans/{wICTestData.TestPlanId}/suites/{wICTestData.TestSuiteId}/testcases/{wICTestData.TestCaseReference}?api-version=5.1");
 
             _apiCaller.SetUpRequestHeaders(new Dictionary<string, string>
             {

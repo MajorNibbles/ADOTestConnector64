@@ -8,6 +8,7 @@ namespace AzureDevOpsTestConnector.Models
         {
             CurrentProjectName = options.ProjectName;
             CurrentSolutionDllName = options.AssociationDllName;
+            TestPlanId = options.TestPlanId;
             CurrentNameSpace = "";
         }
 

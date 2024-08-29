@@ -8,12 +8,12 @@ namespace AzureDevOpsTestConnector.DTOs
         public string AzureDevopsBaseUrl { get; set; }
         public string ProjectName { get; set; }
         public bool UpdateTestCaseAssociation { get; set; }
-        public string currentNameSpace { get; set; }
-        public string currentSolutionDllName { get; set; }
+        public string CurrentNameSpace { get; set; }
+        public string CurrentSolutionDllName { get; set; }
         public string ReadableTestCaseName { get; set; }
         public string TestCaseMethodName { get; set; }
-        public int testPlanId { get; set; }
-        public int testSuiteId { get; set; }
+        public int TestPlanId { get; set; }
+        public int TestSuiteId { get; set; }
         public string TestCaseReference { get; set; }
         public List<string> TestSteps { get; set; }
         public bool UpdateTestCaseName { get; internal set; }
