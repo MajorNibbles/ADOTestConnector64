@@ -17,5 +17,6 @@ namespace AzureDevOpsTestConnector.Models
         public string CurrentNameSpace { get; internal set; }
         public int TestPlanId { get; internal set; }
         public int TestSuiteId { get; internal set; }
+        public int ParentUserStoryId { get; set; }
     }
 }

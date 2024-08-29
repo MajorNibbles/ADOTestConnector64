@@ -164,7 +164,7 @@ namespace AzureDevOpsTestConnector.Services
             return wICTestData.TestCaseReference;
         }
 
-        
+
 
         private string UpdateTestCase(WorkItemCreatorTestCaseData wICTestData)
         {
@@ -200,9 +200,9 @@ namespace AzureDevOpsTestConnector.Services
                     $"{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestName\",\"value\": \"{EscapeJsonCharacters(wICTestData.CurrentNameSpace)}.{EscapeJsonCharacters(methodName.Replace(" ", ""))}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestStorage\",\"value\": \"{EscapeJsonCharacters(wICTestData.CurrentSolutionDllName)}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestId\",\"value\": \"{Guid.NewGuid()}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestType\",\"value\": \"Unit Test\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomationStatus\",\"value\": \"Automated\"}}";
                 updateOperations.Add(associationBodyText);
             }
-            
 
-            
+
+
 
             _apiCaller.AddRequestBodyText($"[{string.Join(",", updateOperations)}]");
 
@@ -267,6 +267,54 @@ namespace AzureDevOpsTestConnector.Services
                 throw new Exception($"Unable to add test cases to the test suite, please check your settings{Environment.NewLine}Status Code:{result.StatusCode}(Hint: if 203 check your PAT settings!){Environment.NewLine}Content Message:{result.Content}");
             }
         }
+
+        private void LinkTestCaseToUserStory(WorkItemCreatorTestCaseData wICTestData, int userStoryId)
+        {
+            var hashedToken = _encoder.EncodeString($"{wICTestData.PatCode}");
+
+            _apiCaller.SetUpClient($"{wICTestData.AzureDevopsBaseUrl}/{wICTestData.ProjectName}/_apis/wit/workitems/{wICTestData.TestCaseReference}?api-version=5.1");
+
+            _apiCaller.SetUpRequestHeaders(new Dictionary<string, string>
+            {
+                {"Authorization",$"Basic {hashedToken}" },
+                {"Content-Type", "application/json-patch+json" }
+            });
+
+            var requestBody = $"[{{\"op\": \"add\",\"path\": \"/relations/-\",\"value\": {{\"rel\": \"Microsoft.VSTS.Common.TestedBy-Reverse\",\"url\": \"{wICTestData.AzureDevopsBaseUrl}/{wICTestData.ProjectName}/_apis/wit/workitems/{userStoryId}\"}}}}]";
+
+            _apiCaller.AddRequestBodyText(requestBody);
+
+            var result = _apiCaller.PerformApiPatchRequest();
+
+            if (!result.IsSuccessful)
+            {
+                throw new Exception($"Unable to link Test Case to User Story, please check your settings{Environment.NewLine}Status Code:{result.StatusCode}(Hint: if 203 check your PAT settings!){Environment.NewLine}Content Message:{result.Content}");
+            }
+        }
+
+        private void UpdateTestCaseState(WorkItemCreatorTestCaseData wICTestData)
+        {
+            var hashedToken = _encoder.EncodeString($"{wICTestData.PatCode}");
+
+            _apiCaller.SetUpClient($"{wICTestData.AzureDevopsBaseUrl}/{wICTestData.ProjectName}/_apis/wit/workitems/{wICTestData.TestCaseReference}?api-version=5.1");
+
+            _apiCaller.SetUpRequestHeaders(new Dictionary<string, string>
+            {
+                {"Authorization",$"Basic {hashedToken}" },
+                {"Content-Type", "application/json-patch+json" }
+            });
+
+            _apiCaller.AddRequestBodyText("[{\"op\": \"add\",\"path\": \"/fields/System.State\",\"value\": \"Ready\"}]");
+
+            var result = _apiCaller.PerformApiPatchRequest();
+
+            if (!result.IsSuccessful)
+            {
+                throw new Exception($"Unable to update Test Case state, please check your settings{Environment.NewLine}Status Code:{result.StatusCode}(Hint: if 203 check your PAT settings!){Environment.NewLine}Content Message:{result.Content}");
+            }
+        }
+
+
 
         private string ExtractIdFromJsonResponse(string input)
         {

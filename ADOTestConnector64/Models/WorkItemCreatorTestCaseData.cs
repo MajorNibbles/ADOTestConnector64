@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace AzureDevOpsTestConnector.DTOs
 {
@@ -17,5 +17,6 @@ namespace AzureDevOpsTestConnector.DTOs
         public string TestCaseReference { get; set; }
         public List<string> TestSteps { get; set; }
         public bool UpdateTestCaseName { get; internal set; }
+        public int ParentUserStoryId { get; set; }
     }
 }
