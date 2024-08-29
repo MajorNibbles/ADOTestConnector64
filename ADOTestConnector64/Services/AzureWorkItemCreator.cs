@@ -30,7 +30,10 @@ namespace AzureDevOpsTestConnector.Services
             }
 
             AddTestCaseToTestSuite(wICTestData);
-            LinkTestCaseToUserStory(wICTestData, wICTestData.ParentUserStoryId);
+            if (wICTestData.ParentUserStoryId > 0)
+            {
+                LinkTestCaseToUserStory(wICTestData, wICTestData.ParentUserStoryId);
+            }
             UpdateTestCaseState(wICTestData);
             return wICTestData.TestCaseReference;
         }
