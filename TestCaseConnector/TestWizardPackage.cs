@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Task = System.Threading.Tasks.Task;
 
-namespace ADOTestConnector64
+namespace TestWizard
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -25,14 +25,14 @@ namespace ADOTestConnector64
     /// </para>
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
-    [Guid(ADOTestConnector64Package.PackageGuidString)]
+    [Guid(TestWizardPackage.PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(OptionPageGrid),
         "AzureDevops Test Connector", "Settings", 0, 0, true)]
-    public sealed class ADOTestConnector64Package : AsyncPackage
+    public sealed class TestWizardPackage : AsyncPackage
     {
         /// <summary>
-        /// ADOTestConnector64Package GUID string.
+        /// TestWizardPackage GUID string.
         /// </summary>
         public const string PackageGuidString = "9f223846-a452-42ca-afd9-85890e2c4b4f";
 

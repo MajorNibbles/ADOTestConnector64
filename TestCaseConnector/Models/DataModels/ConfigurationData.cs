@@ -1,4 +1,4 @@
-﻿using ADOTestConnector64;
+﻿using TestWizard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace AzureDevOpsTestConnector.Models
 {
     public class ConfigurationData
     {
-        public ConfigurationData(ADOTestConnector64Package options)
+        public ConfigurationData(TestWizardPackage options)
         {
             ClassTestPlanAttributePattern = options.ClassTestPlanAttributePattern;
             FeatureTestPlanAttributePattern = options.FeatureTestPlanAttributePattern;

@@ -22,7 +22,7 @@
 
   <!--The Commands section is where commands, menus, and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
-  <Commands package="guidADOTestConnector64Package">
+  <Commands package="guidTestWizardPackage">
     <!-- Inside this section we have different sub-sections: one for the menus, another
     for the menu groups, one for the buttons (the actual commands), one for the combos
     and the last one for the bitmaps used. Each element is identified by a command id that
@@ -36,7 +36,7 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
-      <Group guid="guidADOTestConnector64PackageCmdSet" id="MyMenuGroup" priority="0x0600">
+      <Group guid="guidTestWizardPackageCmdSet" id="MyMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
       </Group>
     </Groups>
@@ -52,8 +52,8 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidADOTestConnector64PackageCmdSet" id="FirstCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidADOTestConnector64PackageCmdSet" id="MyMenuGroup" />
+      <Button guid="guidTestWizardPackageCmdSet" id="FirstCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidTestWizardPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
           <ButtonText>Sync Visual Studio Test Cases with ADO</ButtonText>
@@ -74,10 +74,10 @@
 
   <Symbols>
     <!-- This is the package guid. -->
-    <GuidSymbol name="guidADOTestConnector64Package" value="{9f223846-a452-42ca-afd9-85890e2c4b4f}" />
+    <GuidSymbol name="guidTestWizardPackage" value="{9f223846-a452-42ca-afd9-85890e2c4b4f}" />
 
     <!-- This is the guid used to group the menu commands together -->
-    <GuidSymbol name="guidADOTestConnector64PackageCmdSet" value="{20852553-7dbf-4bf0-8149-e8a72394b22e}">
+    <GuidSymbol name="guidTestWizardPackageCmdSet" value="{20852553-7dbf-4bf0-8149-e8a72394b22e}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="FirstCommandId" value="0x0100" />
     </GuidSymbol>

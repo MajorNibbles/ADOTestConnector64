@@ -1,10 +1,10 @@
-﻿using ADOTestConnector64;
+﻿using TestWizard;
 
 namespace AzureDevOpsTestConnector.Models
 {
     public class AdoUploadData
     {
-        public AdoUploadData(ADOTestConnector64Package options)
+        public AdoUploadData(TestWizardPackage options)
         {
             CurrentProjectName = options.ProjectName;
             CurrentSolutionDllName = options.AssociationDllName;

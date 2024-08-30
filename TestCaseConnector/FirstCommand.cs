@@ -14,7 +14,7 @@ using AzureDevOpsTestConnector.Services.DiService;
 using EnvDTE;
 using System.ComponentModel.Design;
 
-namespace ADOTestConnector64
+namespace TestWizard
 {
     /// <summary>
     /// Command handler
@@ -36,7 +36,7 @@ namespace ADOTestConnector64
         /// </summary>
         private readonly AsyncPackage package;
 
-        private ADOTestConnector64Package _options;
+        private TestWizardPackage _options;
         private AdoUploadData _adoData;
         private ConfigurationData _configData;
         private RuntimeData _runData;
@@ -105,7 +105,7 @@ namespace ADOTestConnector64
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            _options = this.package as ADOTestConnector64Package;
+            _options = this.package as TestWizardPackage;
             _adoData = new AdoUploadData(_options);
             _configData = new ConfigurationData(_options);
             _runData = new RuntimeData();

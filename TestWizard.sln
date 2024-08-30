@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADOTestConnector64", "ADOTestConnector64\ADOTestConnector64.csproj", "{19F7540B-87C4-4B90-9B5A-5BB66222346C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCaseConnector", "TestCaseConnector\TestCaseConnector.csproj", "{19F7540B-87C4-4B90-9B5A-5BB66222346C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
