@@ -13,8 +13,8 @@
     <ProjectGuid>{19F7540B-87C4-4B90-9B5A-5BB66222346C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ADOTestConnector64</RootNamespace>
-    <AssemblyName>ADOTestConnector64</AssemblyName>
+    <RootNamespace>TestWizard</RootNamespace>
+    <AssemblyName>TestWizard</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <UseCodebase>true</UseCodebase>
