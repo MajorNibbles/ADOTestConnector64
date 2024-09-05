@@ -383,7 +383,7 @@ namespace TestWizard
 
                         if (testFileLines[i - j].Contains(_configData.ParentUserStoryPattern.Prefix) && testFileLines[i - j].Contains(_configData.ParentUserStoryPattern.Suffix))
                         {
-                            _adoData.ParentUserStoryId = ExtractReferenceId(testFileLines[i - j], _configData.TestPlanPattern);
+                            _adoData.ParentUserStoryId = ExtractReferenceId(testFileLines[i - j], _configData.ParentUserStoryPattern);
                             _runData.ParentUserStoryAttributeLine = i - j;
                         }
                     }
