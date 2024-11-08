@@ -11,5 +11,6 @@ namespace AzureDevOpsTestConnector.DTOs
         public int ExistingTestCaseReferenceIndex { get; set; }
         public string WhiteSpace { get; set; }
         public List<string> TestSteps { get; set; }
+        public string SpecflowParams { get; set; }
     }
 }
