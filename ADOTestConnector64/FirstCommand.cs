@@ -811,7 +811,7 @@ namespace ADOTestConnector64
                         var testCaseIds = splitTestCaseReferenceIds.Length >= h + 1 ? splitTestCaseReferenceIds[h].Trim() : "";
                         var paramString = HeaderValuePairToString(headerValuePairs, h);
                         var tagString = exampleTagLines.Count == 0 ? "null" : $"[\"{String.Join("\",\"", exampleTagLines)}\"]";
-                        var specflowParams = $"({paramString},{tagString})";
+                        var specflowParams = $"({paramString},\"1\",{tagString})"; //  adding a default 'pickle' value for ReqNRolls latest update
                         var enhancedMethodName = methodName;
                         var enhancedSteps = new List<string>();
                         foreach (var step in specflowSteps)
