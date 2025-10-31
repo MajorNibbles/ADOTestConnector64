@@ -117,6 +117,7 @@ namespace ADOTestConnector64
             _tests = new List<TestCaseData>();
             DTE dte = (DTE)Package.GetGlobalService(typeof(DTE));
             var currentFilePath = dte.ActiveDocument.FullName;
+            var pickleCount = 0;
 
             //check if file is specflow or not
             if (currentFilePath.EndsWith(".feature"))
@@ -161,8 +162,9 @@ namespace ADOTestConnector64
                 var currentLine = _testFileLines.ElementAt(i);
                 if (_runData.SpecflowFeatureFile)
                 {
-                    var testCases = ScanForSpecflowScenarios(currentLine, i);
+                    var testCases = ScanForSpecflowScenarios(currentLine, i, pickleCount);
                     _tests.AddRange(testCases);
+                    pickleCount = pickleCount + testCases.Count;
                 }
                 else
                 {
@@ -669,7 +671,7 @@ namespace ADOTestConnector64
             return null;
         }
 
-        private List<TestCaseData> ScanForSpecflowScenarios(string currentLine, int currentLineInFile)
+        private List<TestCaseData> ScanForSpecflowScenarios(string currentLine, int currentLineInFile, int pickleCount)
         {
             var testCases = new List<TestCaseData>();
             //See if line contains the start of a scenario
@@ -811,7 +813,7 @@ namespace ADOTestConnector64
                         var testCaseIds = splitTestCaseReferenceIds.Length >= h + 1 ? splitTestCaseReferenceIds[h].Trim() : "";
                         var paramString = HeaderValuePairToString(headerValuePairs, h);
                         var tagString = exampleTagLines.Count == 0 ? "null" : $"[\"{String.Join("\",\"", exampleTagLines)}\"]";
-                        var specflowParams = $"({paramString},\"1\",{tagString})"; //  adding a default 'pickle' value for ReqNRolls latest update
+                        var specflowParams = $"({paramString},\"{pickleCount + testCases.Count}\",{tagString})"; //  adding a 'pickle' value for ReqNRolls latest update
                         var enhancedMethodName = methodName;
                         var enhancedSteps = new List<string>();
                         foreach (var step in specflowSteps)
