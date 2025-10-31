@@ -111,15 +111,14 @@ namespace AzureDevOpsTestConnector.Services
                 {"Content-Type", "application/json-patch+json"}
             });
 
-            var methodName = Regex.Replace(wICTestData.TestCaseMethodName, @"(^\w)|(\s\w)|(\-\w)", m => m.Value.ToUpper()); //replace first letters with capitals
+            var methodName = Regex.Replace(wICTestData.TestCaseMethodName, @"(^\w)|(\s\w)|(\-\w)", m => m.Value.ToUpper()).Replace("-", "_").Replace(" ", ""); //replace first letters with capitals and change hyphens to underscores.
 
-            if (!String.IsNullOrEmpty(wICTestData.SpecflowParams)) methodName = methodName.Replace(" ", "") + wICTestData.SpecflowParams;
-            else methodName = methodName.Replace(" ", "");
+            if (!String.IsNullOrEmpty(wICTestData.SpecflowParams)) methodName = methodName + wICTestData.SpecflowParams;
 
             string associationBodyText = "";
             if (wICTestData.UpdateTestCaseAssociation)
                 associationBodyText = string.IsNullOrEmpty(wICTestData.currentSolutionDllName) ? "" :
-                $"{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestName\",\"value\": \"{EscapeJsonCharacters(wICTestData.currentNameSpace.Replace("-", "_"))}.{EscapeJsonCharacters(methodName.Replace("-", "_"))}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestStorage\",\"value\": \"{EscapeJsonCharacters(wICTestData.currentSolutionDllName)}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestId\",\"value\": \"{Guid.NewGuid()}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestType\",\"value\": \"Unit Test\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomationStatus\",\"value\": \"Automated\"}},";
+                $"{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestName\",\"value\": \"{EscapeJsonCharacters(wICTestData.currentNameSpace.Replace("-", "_"))}.{EscapeJsonCharacters(methodName)}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestStorage\",\"value\": \"{EscapeJsonCharacters(wICTestData.currentSolutionDllName)}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestId\",\"value\": \"{Guid.NewGuid()}\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomatedTestType\",\"value\": \"Unit Test\"}},{{\"op\": \"add\",\"path\": \"/fields/Microsoft.VSTS.TCM.AutomationStatus\",\"value\": \"Automated\"}},";
 
             var testCaseTitleCorrectLength = wICTestData.ReadableTestCaseName.Length > 128 ? EscapeJsonCharacters(wICTestData.ReadableTestCaseName).Substring(0, 128) : EscapeJsonCharacters(wICTestData.ReadableTestCaseName);
             _apiCaller.AddRequestBodyText($"[{associationBodyText}{{\"op\": \"add\",\"path\": \"/fields/System.Title\",\"from\": null,\"value\": \"{testCaseTitleCorrectLength}\"}}]");
